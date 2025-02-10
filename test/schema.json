@@ -1,0 +1,66 @@
+{
+  "MyCollection": {
+    "bsonType": "object",
+    "required": ["oemNumber", "productName", "price", "quantity", "createdAt"],
+    "properties": {
+      "_id": { "bsonType": "objectId" },
+      "oemNumber": { "bsonType": "string" },
+      "zipCode": { "bsonType": "string" },
+      "supplierId": { "bsonType": "string" },
+      "productName": { "bsonType": "string" },
+      "price": { "bsonType": "double" },
+      "quantity": { "bsonType": "int" },
+      "createdAt": { "bsonType": "date" },
+      "description": { "bsonType": "string" },
+      "manufacturer": { "bsonType": "string" },
+      "category": { 
+        "bsonType": "string",
+        "enum": ["Electronics", "Clothing", "Food", "Tools", "Books"]
+      }
+    }
+  },
+
+  "OrderCollection": {
+    "bsonType": "object",
+    "required": ["orderId", "customerName", "customerEmail", "orderDate", "status", "products"],
+    "properties": {
+      "_id": { "bsonType": "objectId" },
+      "orderId": { "bsonType": "string" },
+      "customerName": { "bsonType": "string" },
+      "customerEmail": { "bsonType": "string" },
+      "shippingAddress": { "bsonType": "string" },
+      "orderDate": { "bsonType": "date" },
+      "status": {
+        "bsonType": "string",
+        "enum": ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"]
+      },
+      "products": {
+        "bsonType": "array",
+        "items": {
+          "bsonType": "object",
+          "required": ["productId", "quantity"],
+          "properties": {
+            "productId": { "bsonType": "string" },
+            "quantity": { "bsonType": "int" }
+          }
+        }
+      },
+      "totalAmount": { "bsonType": "double" }
+    }
+  },
+
+  "indexes": {
+    "MyCollection": [
+      { "key": { "price": -1 } },
+      { "key": { "category": 1, "price": -1 } },
+      { "key": { "manufacturer": 1 } },
+      { "key": { "_id": 1 } }
+    ],
+    "OrderCollection": [
+      { "key": { "orderDate": -1 } },
+      { "key": { "status": 1, "totalAmount": 1 } },
+      { "key": { "products.productId": 1 } },
+      { "key": { "products.productId": 1, "totalAmount": -1 } }
+    ]
+  }
+}

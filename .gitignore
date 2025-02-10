@@ -17,3 +17,4 @@
 /client/DemoMongoClusterWriter/bin/Debug/net5.0
 /client/MongoCluster.Messages/bin/Debug/netstandard2.1
 docs
+.vscode
